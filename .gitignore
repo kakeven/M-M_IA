@@ -1,0 +1,45 @@
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+
+# Ambientes Python e caches
+.venv/
+venv/
+**/.venv/
+**/venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Dados locais, índices e arquivos grandes/licenciados
+.local/
+**/chroma_db/
+**/chroma_db/**
+**/embeddings/
+**/embeddings/**
+**/embeds/
+**/embeds/**
+**/embedding/
+**/embedding/**
+*.pdf
+/data/*
+!/data/README.md
+!/data/.gitkeep
+/Motor de regras/*.json
+/Motor de regras/**/*.json
+/Motor de regras/*.txt
+/Motor de regras/*.log
+
+# Node e ferramentas de editor/OS
+node_modules/
+**/node_modules/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.kilo/

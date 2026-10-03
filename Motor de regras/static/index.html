@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ficha manual · Mutantes & Malfeitores</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark" aria-hidden="true">M&M</span><div><h1>Ficha manual</h1><p>Mutantes & Malfeitores · 3ª edição</p></div></div>
+    <div class="actions"><button id="new" type="button">Nova ficha</button><button id="export" type="button">Exportar texto</button><button id="save" class="primary" type="button">Salvar ficha</button></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <nav id="nav" aria-label="Partes da ficha"></nav>
+      <div class="library-heading"><h2>Fichas salvas</h2><button id="refresh" type="button" aria-label="Atualizar fichas salvas">Atualizar</button></div>
+      <div id="library"><p class="muted">Carregando…</p></div>
+    </aside>
+    <main>
+      <section class="overview" aria-label="Resumo de pontos">
+        <div><strong id="hero">Novo personagem</strong><p id="save-state" role="status">Carregando o programa…</p></div>
+        <div class="points"><span><b id="spent">—</b> gastos</span><span><b id="budget">—</b> total</span><span class="remaining"><b id="remaining">—</b> disponíveis</span></div>
+      </section>
+      <div id="error" class="message error" role="alert" hidden></div>
+      <div id="notice" class="message notice" role="status" hidden></div>
+      <section class="paper">
+        <div class="section-heading"><div><h2 id="section-title">Personagem</h2><p id="section-help"></p></div><button id="validate" type="button">Validar ficha</button></div>
+        <form id="editor" autocomplete="off"></form>
+      </section>
+      <footer>Alterações ficam como rascunho neste navegador. Use Salvar ficha para guardá-las no programa.</footer>
+    </main>
+  </div>
+  <dialog id="new-dialog">
+    <form id="new-form">
+      <h2>Nova ficha</h2>
+      <label>Nome do personagem<input name="nome" maxlength="100" required value="Novo personagem"></label>
+      <label>Jogador<input name="jogador" maxlength="100"></label>
+      <label>Nível de poder<input name="np" type="number" value="10" min="1" max="30" required></label>
+      <div class="actions"><button id="cancel-new" type="button">Cancelar</button><button class="primary" type="submit">Criar ficha</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

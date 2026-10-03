@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fichas locais</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+  <script src="/static/creation.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail" aria-label="Fichas salvas">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">M</span><div><strong>Fichas locais</strong><small>Mutantes & Malfeitores</small></div></div>
+      <button type="button" class="new-sheet" id="newSheet">Criar ficha</button>
+      <div class="rail-heading"><h2>Em criação</h2></div>
+      <div id="creationList" class="sheet-list" aria-live="polite"></div>
+      <div class="rail-heading"><h2>Biblioteca</h2><button type="button" class="text-button" id="refreshList">Atualizar</button></div>
+      <div id="sheetList" class="sheet-list" aria-live="polite"></div>
+      <p class="rail-note">Fichas, PDF, banco e motor permanecem neste computador. Ao usar ChatGPT Plus, o pedido e os resumos necessários são enviados à OpenAI.</p>
+    </aside>
+
+    <main class="workspace">
+      <div class="topline"><span>Oficina de personagens</span><span id="connectionState">IA local</span></div>
+      <section id="startView" class="start-view">
+        <div class="intro"><h1>Crie seu herói em conversa.</h1><p>Conte a ideia inicial. A ficha acompanha cada escolha ao lado do chat.</p></div>
+        <form id="generateForm" class="composer start-composer">
+          <div class="start-chat-side">
+            <div class="start-stage"><span>Conceito</span><span>Habilidades</span><span>Perícias</span><span>Vantagens</span><span>Poderes</span><span>Revisão</span></div>
+            <div class="start-assistant"><small>Assistente</small><p>Quem é o seu herói? Conte o que ele faz, como age ou qual é a ideia central. Vamos montar o resto juntos.</p></div>
+            <label for="description">Sua primeira mensagem</label>
+            <textarea id="description" name="descricao" rows="5" maxlength="2000" required placeholder="Ex.: uma investigadora que lê pensamentos e se move sem ser vista"></textarea>
+            <div class="composer-footer"><p>O rascunho e a conversa ficam salvos neste computador.</p><button type="submit" class="primary" id="generateButton">Começar conversa</button></div>
+          </div>
+          <div class="start-sheet-side">
+            <div class="start-sheet-head"><small>Prévia da ficha</small><strong id="startPreviewName">Seu personagem</strong><span>NP <b id="startPreviewNP">10</b></span></div>
+            <p id="startPreviewConcept" class="start-concept-placeholder">Seu conceito aparecerá aqui enquanto a ficha ganha forma.</p>
+            <div class="start-empty-rows"><div><strong>Habilidades</strong><span>A definir</span></div><div><strong>Perícias</strong><span>A definir</span></div><div><strong>Vantagens</strong><span>A definir</span></div><div><strong>Poderes</strong><span>A definir</span></div></div>
+            <div class="start-setup"><h2>Antes de começar</h2><p>Você pode ajustar estes dados durante a criação.</p>
+          <div class="form-row">
+            <label>Nome <span>opcional</span><input id="characterName" name="nome" maxlength="100" placeholder="A IA pode sugerir"></label>
+            <label>Jogador <span>opcional</span><input id="playerName" name="jogador" maxlength="100" placeholder="Seu nome"></label>
+            <label class="np-field">NP<input id="powerLevel" name="np" type="number" min="1" max="30" value="10" required></label>
+          </div>
+          <div class="ai-settings">
+            <label for="aiProvider">Gerar com</label>
+            <select id="aiProvider" name="provedor">
+              <option value="ollama">Ollama local</option>
+              <option value="chatgpt">Meu plano ChatGPT Plus</option>
+            </select>
+            <div id="chatgptControls" class="chatgpt-controls hidden">
+              <p id="chatgptStatus">Conecte sua conta para usar o plano.</p>
+              <a id="chatgptConnect" class="secondary" href="/auth/start">Continue with ChatGPT</a>
+              <button id="chatgptDisconnect" class="text-button hidden" type="button">Desconectar</button>
+              <label id="chatgptModelWrap" class="hidden" for="chatgptModel">Modelo
+                <select id="chatgptModel" name="modelo"></select>
+              </label>
+              <label id="reasoningEffortWrap" class="hidden" for="reasoningEffort">Esforço
+                <select id="reasoningEffort" name="esforco">
+                  <option value="">Padrão do modelo</option>
+                  <option value="none">Nenhum</option>
+                  <option value="low">Leve</option>
+                  <option value="medium">Médio</option>
+                  <option value="high">Alto</option>
+                  <option value="xhigh">Muito alto</option>
+                  <option value="max">Máximo</option>
+                </select>
+              </label>
+              <a id="chatgptUsage" class="usage-link hidden" href="https://chatgpt.com/#settings/Usage" target="_blank" rel="noopener noreferrer">Gerenciar uso do plano</a>
+              <small>Ao gerar com ChatGPT, o pedido, resumos recuperados e dados necessários da ficha são enviados à OpenAI.</small>
+            </div>
+          </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section id="creationView" class="creation-view hidden" aria-label="Criação acompanhada">
+        <header class="creation-header"><div><p id="creationStatus">Rascunho salvo</p><h1 id="creationTitle">Novo personagem</h1></div><button type="button" class="secondary" id="backToStart">Nova criação</button></header>
+        <div class="creation-tabs" role="tablist" aria-label="Visualização"><button type="button" data-pane="chat" class="active">Conversa</button><button type="button" data-pane="sheet">Ficha</button></div>
+        <div class="creation-grid">
+          <div class="chat-pane" id="chatPane"><div id="stageProgress" class="stage-progress"></div><div id="chatMessages" class="chat-messages" aria-live="polite"></div><div id="proposalActions" class="proposal-actions hidden"></div><form id="chatForm" class="chat-form"><label for="chatInput">Sua mensagem</label><textarea id="chatInput" rows="3" maxlength="2000" placeholder="Conte mais sobre seu herói ou peça um ajuste"></textarea><div><span id="chatHint">A IA fará uma proposta para a etapa atual.</span><button type="submit" class="primary" id="chatSend">Enviar</button></div></form></div>
+          <div class="creation-sheet-pane" id="creationSheetPane"><div id="creationSheet"></div></div>
+        </div>
+      </section>
+      <section id="sheetView" class="sheet-view hidden" aria-live="polite"></section>
+      <section id="legacyView" class="sheet-view hidden" aria-live="polite"></section>
+      <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+      <dialog id="planWelcome" class="plan-welcome">
+        <h2>Você está usando seu plano ChatGPT</h2>
+        <p>As gerações escolhidas como ChatGPT Plus usam seu plano ou créditos disponíveis. Você pode acompanhar e ajustar o uso nas configurações do ChatGPT.</p>
+        <a href="https://chatgpt.com/#settings/Usage" target="_blank" rel="noopener noreferrer">Gerenciar uso</a>
+        <button id="closePlanWelcome" type="button" class="primary">Entendi</button>
+      </dialog>
+    </main>
+  </div>
+</body>
+</html>
