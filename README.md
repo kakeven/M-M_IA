@@ -146,6 +146,3 @@ Para testar também o criador manual incluído neste repositório:
 python -m unittest discover -s tests -p "test_manual_*.py" -v
 ```
 
-## Antes de publicar
-
-O `.gitignore` exclui `.env`, `.local/`, ambientes virtuais, `data/` (exceto sua documentação) e os JSONs de fichas deixados em `Motor de regras/`. O código do motor e sua interface entram no repositório. Confira os arquivos que entrarão no commit com `git status --short` e `git add --dry-run .`; não force a inclusão de dados locais, credenciais ou conteúdo protegido.
