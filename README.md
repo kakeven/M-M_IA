@@ -2,6 +2,8 @@
 
 Assistente experimental, em Python, para transformar uma descrição em linguagem natural em sugestões de efeitos e em um rascunho de ficha de **Mutantes & Malfeitores 3ª edição**. Ele consulta uma base local de resumos, pede propostas a um modelo de IA e usa um motor de regras local para recalcular os custos que consegue determinar.
 
+> **Transparência sobre o desenvolvimento:** este repositório, incluindo código, testes e documentação, foi criado com auxílio de IA. Seu conteúdo pode conter erros e deve ser revisado antes do uso.
+
 > **Estado do projeto:** a criação com IA ainda é um protótipo e exige revisão humana: extras, falhas, custos variáveis e parte dos limites de NP não são validados automaticamente nesse fluxo. O repositório inclui uma versão **mais completa do motor de regras**, usada também pelo criador manual. O conteúdo dos livros e os JSONs de regras usados pela busca com IA não são distribuídos. Sem esses JSONs, a indexação e a geração com IA não funcionam.
 
 ## O que ele faz
